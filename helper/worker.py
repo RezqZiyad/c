@@ -102,7 +102,7 @@ async def encc(e):
         ttt = time.time()
         await nn.delete()
         nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
-        metadata = extractMetadata(createParser(out))
+        metadata = extractMetadata(createParser(os.path.basename(out)))
         with open(out, "rb") as f:
             ok = await upload_file(
                      client=e.client,
