@@ -15,9 +15,8 @@
 
 from .funcn import *
 from .FastTelethon import download_file, upload_file
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
-from telethon.tl.types import DocumentAttributeVideo
+
+
 async def screenshot(e):
     await e.edit("`Generating Screenshots...`")
     COUNT.append(e.chat_id)
@@ -98,7 +97,6 @@ async def encc(e):
 
         ees = dt.now()
         ttt = time.time()
-        metadata = extractMetadata(createParser(out))
         await nn.delete()
         nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
         with open(out, "rb") as f:
@@ -112,9 +110,7 @@ async def encc(e):
                      )
         ds = await e.client.send_file(
             e.chat_id,
-            file=ok,
-            force_document=True,
-            thumb=thum,attributes=(DocumentAttributeVideo((0, metadata.get('duration').seconds)[metadata.has('duration')],(0, metadata.get('width'))[metadata.has('width')],(0, metadata.get('height'))[metadata.has('height')])))
+            file=ok)
         await nnn.delete()
         org = int(Path(dl).stat().st_size)
         com = int(Path(out).stat().st_size)
