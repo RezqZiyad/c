@@ -80,7 +80,7 @@ async def encc(e):
                 [Button.inline("CANCEL PROCESS", data=f"skip{wah}")],
             ],
         )
-        cmd = f'ffmpeg -i "{dl}" -preset ultrafast -c:v libx265 -crf 25 -map 0:v -c:a aac -map 0:a "{out}" -y'
+        cmd = f'ffmpeg -i "{dl}" -preset ultrafast -c:v libx265 -crf 21 -map 0:v -c:a aac -map 0:a "{out}" -y'
         process = await asyncio.create_subprocess_shell(
             cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
@@ -108,9 +108,12 @@ async def encc(e):
                          progress(d, t, nnn, ttt, "uploading..")
                          ),
                      )
-        ds = await e.client.send_file(
-            e.chat_id,
-            file=ok)
+        # ds = await e.client.send_file(
+        #     e.chat_id,
+        #     file=ok)
+        ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
+
+
         await nnn.delete()
         org = int(Path(dl).stat().st_size)
         com = int(Path(out).stat().st_size)
