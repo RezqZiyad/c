@@ -102,7 +102,7 @@ async def encc(e):
         ttt = time.time()
         await nn.delete()
         nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
-        metadata = await extractMetadata(
+        metaz = await extractMetadata(
                         createParser(out)
                     )
         with open(out, "rb") as f:
@@ -118,9 +118,9 @@ async def encc(e):
             e.chat_id,
             file=ok,attributes=(
                                   DocumentAttributeVideo(
-                                      (0, metadata.get('duration').seconds)[metadata.has('duration')],
-                                      (0, metadata.get('width'))[metadata.has('width')],
-                                      (0, metadata.get('height'))[metadata.has('height')],supports_streaming=True
+                                      (0, metaz.get('duration').seconds)[metaz.has('duration')],
+                                      (0, metaz.get('width'))[metaz.has('width')],
+                                      (0, metaz.get('height'))[metaz.has('height')],supports_streaming=True
                                   )))
         # ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
 
@@ -147,11 +147,11 @@ async def encc(e):
         os.remove(out)
     except Exception as er:
         LOGS.info(er)
-        LOGS.info(metadata)
+        LOGS.info(metaz)
         LOGS.info(DocumentAttributeVideo(
-                                      (0, metadata.get('duration').seconds)[metadata.has('duration')],
-                                      (0, metadata.get('width'))[metadata.has('width')],
-                                      (0, metadata.get('height'))[metadata.has('height')],supports_streaming=True
+                                      (0, metaz.get('duration').seconds)[metaz.has('duration')],
+                                      (0, metaz.get('width'))[metaz.has('width')],
+                                      (0, metaz.get('height'))[metaz.has('height')],supports_streaming=True
                                   ))
         return COUNT.remove(e.chat_id)
 
