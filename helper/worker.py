@@ -15,7 +15,8 @@
 
 from .funcn import *
 from .FastTelethon import download_file, upload_file
-from hachoir import *
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
 from telethon import sync
 
@@ -101,8 +102,8 @@ async def encc(e):
         ttt = time.time()
         await nn.delete()
         nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
-        metadata = hachoir.metadata.extractMetadata(
-                        hachoir.parser.createParser(out)
+        metadata = await extractMetadata(
+                        createParser(out)
                     )
         with open(out, "rb") as f:
             ok = await upload_file(
