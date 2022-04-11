@@ -18,6 +18,7 @@ from .FastTelethon import download_file, upload_file
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
+from telethon import sync
 
 async def screenshot(e):
     await e.edit("`Generating Screenshots...`")
