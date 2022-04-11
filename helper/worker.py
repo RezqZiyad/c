@@ -15,7 +15,9 @@
 
 from .funcn import *
 from .FastTelethon import download_file, upload_file
-
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
+from telethon.tl.types import DocumentAttributeVideo
 
 async def screenshot(e):
     await e.edit("`Generating Screenshots...`")
@@ -99,6 +101,7 @@ async def encc(e):
         ttt = time.time()
         await nn.delete()
         nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
+        metadata = extractMetadata(createParser(out))
         with open(out, "rb") as f:
             ok = await upload_file(
                      client=e.client,
@@ -108,10 +111,15 @@ async def encc(e):
                          progress(d, t, nnn, ttt, "uploading..")
                          ),
                      )
-        # ds = await e.client.send_file(
-        #     e.chat_id,
-        #     file=ok)
-        ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
+        ds = await e.client.send_file(
+            e.chat_id,
+            file=ok,attributes=(
+                                  DocumentAttributeVideo(
+                                      (0, metadata.get('duration').seconds)[metadata.has('duration')],
+                                      (0, metadata.get('width'))[metadata.has('width')],
+                                      (0, metadata.get('height'))[metadata.has('height')]
+                                  )),supports_streaming=True)
+        # ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
 
 
         await nnn.delete()
