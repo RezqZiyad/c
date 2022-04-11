@@ -15,6 +15,8 @@
 
 from .funcn import *
 from .FastTelethon import download_file, upload_file
+from hachoir.metadata import extractMetadata
+from hachoir.parser import createParser
 
 async def screenshot(e):
     await e.edit("`Generating Screenshots...`")
@@ -79,7 +81,7 @@ async def encc(e):
                 [Button.inline("CANCEL PROCESS", data=f"skip{wah}")],
             ],
         )
-        cmd = f'ffmpeg -i "{dl}" -preset fast -c:v libx265 -crf 25 -map 0:v -c:a aac -map 0:a "{out}" -y'
+        cmd = f'ffmpeg -i "{dl}" -preset ultrafast -c:v libx265 -crf 25 -map 0:v -c:a aac -map 0:a "{out}" -y'
         process = await asyncio.create_subprocess_shell(
             cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
@@ -93,8 +95,10 @@ async def encc(e):
                 return os.remove(out)
         except BaseException:
             pass
+
         ees = dt.now()
         ttt = time.time()
+        metadata = extractMetadata(createParser(out))
         await nn.delete()
         nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
         with open(out, "rb") as f:
@@ -110,7 +114,12 @@ async def encc(e):
             e.chat_id,
             file=ok,
             force_document=True,
-            thumb=thum)
+            thumb=thum,attributes=(
+                                  DocumentAttributeVideo(
+                                      (0, metadata.get('duration').seconds)[metadata.has('duration')],
+                                      (0, metadata.get('width'))[metadata.has('width')],
+                                      (0, metadata.get('height'))[metadata.has('height')]
+                                  ))
         await nnn.delete()
         org = int(Path(dl).stat().st_size)
         com = int(Path(out).stat().st_size)
