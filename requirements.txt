@@ -2,7 +2,7 @@ aiohttp
 python-decouple
 pyaesni
 # https://github.com/1Danish-00/Telethon/archive/master.zip
-hachoir3
+hachoir
 Telethon
 html_telegraph_poster
 requests

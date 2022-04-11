@@ -15,8 +15,7 @@
 
 from .funcn import *
 from .FastTelethon import download_file, upload_file
-from hachoir.metadata import extractMetadata
-from hachoir.parser import createParser
+from hachoir import *
 from telethon.tl.types import DocumentAttributeVideo
 from telethon import sync
 
@@ -102,7 +101,9 @@ async def encc(e):
         ttt = time.time()
         await nn.delete()
         nnn = await e.client.send_message(e.chat_id, "`Uploading...`")
-        metadata = extractMetadata(createParser(os.path.basename(out)))
+        metadata = hachoir.metadata.extractMetadata(
+                        hachoir.parser.createParser(out)
+                    )
         with open(out, "rb") as f:
             ok = await upload_file(
                      client=e.client,
@@ -118,8 +119,8 @@ async def encc(e):
                                   DocumentAttributeVideo(
                                       (0, metadata.get('duration').seconds)[metadata.has('duration')],
                                       (0, metadata.get('width'))[metadata.has('width')],
-                                      (0, metadata.get('height'))[metadata.has('height')]
-                                  )),supports_streaming=True)
+                                      (0, metadata.get('height'))[metadata.has('height')],supports_streaming=True
+                                  )))
         # ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
 
 
@@ -145,6 +146,12 @@ async def encc(e):
         os.remove(out)
     except Exception as er:
         LOGS.info(er)
+        LOGS.info(metadata)
+        LOGS.info(DocumentAttributeVideo(
+                                      (0, metadata.get('duration').seconds)[metadata.has('duration')],
+                                      (0, metadata.get('width'))[metadata.has('width')],
+                                      (0, metadata.get('height'))[metadata.has('height')],supports_streaming=True
+                                  ))
         return COUNT.remove(e.chat_id)
 
 
