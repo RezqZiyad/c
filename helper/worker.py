@@ -63,10 +63,10 @@ async def stats(e):
         out, dl, thum, dtime = wh.split(";")
         ot = hbs(int(Path(out).stat().st_size))
         ov = hbs(int(Path(dl).stat().st_size))
-        ans = f"Downloaded:\n{ov}\n\nCompressing:\n{ot}"
+        ans = f"حجم الملف الأصلي:\n{ov}\n\الحجم حتى الآن:\n{ot}"
         await e.answer(ans, cache_time=0, alert=True)
     except BaseException:
-        await e.answer("Someting Went Wrong 🤔\nResend Media", cache_time=0, alert=True)
+        await e.answer("معلش ابعت تاني كدا", cache_time=0, alert=True)
 
 
 async def encc(e):
@@ -117,15 +117,29 @@ async def encc(e):
         ds = await e.client.send_file(
             e.chat_id,
             file=ok,
-                                    attributes=[
-                            DocumentAttributeVideo(
-                                duration=40,
-                                w=1280,
-                                h=720,
-                                round_message=False,
-                                supports_streaming=True,
-                            )
-                        ],)
+                #             attributes=[
+                #     DocumentAttributeVideo(
+                #         duration=40,
+                #         w=1280,
+                #         h=720,
+                #         round_message=False,
+                #         supports_streaming=True,
+                #     )
+                # ],
+                                            attributes=[
+                    DocumentAttributeVideo(
+(0, metaz.get('duration').seconds)[metaz.has('duration')],
+(0, metaz.get('width'))[metaz.has('width')],
+(0, metaz.get('height'))[metaz.has('height')],
+                        round_message=False,
+                        supports_streaming=True,
+                    )
+                ],
+                
+                
+                )
+
+
         # ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
 
 
@@ -297,7 +311,7 @@ async def encod(event):
                     event.media,
                     dir,
                     progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                        progress(d, t, xxx, ttt, "Downloading")
+                        progress(d, t, xxx, ttt, "بحمل الفيديو أهو.. ثوانٍ")
                     ),
                 )
         except Exception as er:
@@ -321,14 +335,9 @@ async def encod(event):
         COUNT.remove(user.id)
         await event.client.send_message(
             event.chat_id,
-            f"🐠DOWNLODING COMPLETED!!🐠",
+            f"خلصت تحميل... أضغط؟",
             buttons=[
-                [
-                    Button.inline("GENERATE SAMPLE", data=f"gsmpl{key}"),
-                    Button.inline("SCREENSHOTS", data=f"sshot{key}"),
-                ],
-                [Button.url("MEDIAINFO", url=inf)],
-                [Button.inline("COMPRESS", data=f"sencc{key}")],
+                [Button.inline("اضغط", data=f"sencc{key}")],
             ],
         )
     except BaseException as er:
