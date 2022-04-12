@@ -116,12 +116,7 @@ async def encc(e):
                      )
         ds = await e.client.send_file(
             e.chat_id,
-            file=ok,attributes=(
-                                  DocumentAttributeVideo(
-                                      (0, metaz.get('duration').seconds)[metaz.has('duration')],
-                                      (0, metaz.get('width'))[metaz.has('width')],
-                                      (0, metaz.get('height'))[metaz.has('height')],supports_streaming=True
-                                  )))
+            file=ok,attributes=(DocumentAttributeVideo(40, 1280, 720,supports_streaming=True)))
         # ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
 
 
