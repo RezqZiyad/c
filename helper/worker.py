@@ -18,7 +18,7 @@ from .FastTelethon import download_file, upload_file
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
 from telethon.tl.types import DocumentAttributeVideo
-from telethon import sync
+import asyncio
 
 async def screenshot(e):
     await e.edit("`Generating Screenshots...`")
@@ -116,7 +116,16 @@ async def encc(e):
                      )
         ds = await e.client.send_file(
             e.chat_id,
-            file=ok,attributes=(DocumentAttributeVideo(40, 1280, 720,supports_streaming=True)))
+            file=ok,
+                                    attributes=[
+                            DocumentAttributeVideo(
+                                duration=40,
+                                w=1280,
+                                h=720,
+                                round_message=False,
+                                supports_streaming=True,
+                            )
+                        ],)
         # ds = await e.client.send_video(e.chat_id, video=ok, supports_streaming=True)
 
 
